@@ -17,12 +17,12 @@ val parts : Int = 2
 val subParts : Int = 3
 val scGap : Float = 0.05f
 val scDiv : Double = 0.51
-val strokeFactor : Int = 90
 val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#673AB7")
 val backColor : Int = Color.parseColor("#BDBDBD")
-val rFactor : Float = 7f
-val circleOffsetFactor : Float = 0.7f
+val rFactor : Float = 5f
+val circleOffsetFactor : Float = 0.9f
+val delay : Long = 20
 
 fun Int.inverse() : Float = 1f / this
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
@@ -53,6 +53,8 @@ fun Canvas.drawBTLCNode(i : Int, scale : Float, paint : Paint) {
     val size : Float = gap / sizeFactor
     paint.color = foreColor
     paint.strokeCap = Paint.Cap.ROUND
+    save()
+    translate(w / 2 , gap * (i + 1))
     for (j in 0..(parts - 1)) {
         val sc : Float = scale.divideScale(j, parts)
         save()
@@ -60,6 +62,7 @@ fun Canvas.drawBTLCNode(i : Int, scale : Float, paint : Paint) {
         drawBallToLineCenter(size, sc, paint)
         restore()
     }
+    restore()
 }
 
 class BallToLineCenterView(ctx : Context) : View(ctx) {
@@ -106,7 +109,7 @@ class BallToLineCenterView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
