@@ -194,4 +194,26 @@ class BallToLineCenterView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BallToLineCenterView) {
+
+        private val animator : Animator = Animator(view)
+        private val bltc : BallToLineCenter = BallToLineCenter(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bltc.draw(canvas, paint)
+            animator.animate {
+                bltc.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bltc.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
