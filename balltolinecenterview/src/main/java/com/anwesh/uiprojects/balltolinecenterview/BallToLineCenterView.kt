@@ -217,4 +217,13 @@ class BallToLineCenterView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : BallToLineCenterView {
+            val view : BallToLineCenterView = BallToLineCenterView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
